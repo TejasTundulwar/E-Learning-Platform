@@ -1,11 +1,27 @@
 from rest_framework import serializers
-from ..models import Subject, Course, Module, Content
+from ..models import Subject, Course, Module
+from ..models import Content
 
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ('id', 'title', 'slug')
+        fields = ['id', 'title', 'slug']
+
+
+class ModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Module
+        fields = ['order', 'title', 'description']
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    modules = ModuleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Course
+        fields = ['id', 'subject', 'title', 'slug', 'overview',
+                  'created', 'owner', 'modules']
 
 
 class ItemRelatedField(serializers.RelatedField):
@@ -15,37 +31,24 @@ class ItemRelatedField(serializers.RelatedField):
 
 class ContentSerializer(serializers.ModelSerializer):
     item = ItemRelatedField(read_only=True)
+
     class Meta:
         model = Content
-        fields = ('order', 'item')
-
-
-class ModuleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Module
-        fields = ('order', 'title', 'description')
-
-
-class CourseSerializer(serializers.ModelSerializer):
-    modules = ModuleSerializer(many=True)
-
-    class Meta:
-        model = Course
-        fields = ('id', 'subject', 'title', 'slug',
-                  'overview', 'created', 'owner', 'modules')
+        fields = ['order', 'item']
 
 
 class ModuleWithContentsSerializer(serializers.ModelSerializer):
     contents = ContentSerializer(many=True)
+
     class Meta:
         model = Module
-        fields = ('order', 'title', 'description', 'contents')
+        fields = ['order', 'title', 'description', 'contents']
 
 
-class CourseWithContentsSerializer(CourseSerializer):
+class CourseWithContentsSerializer(serializers.ModelSerializer):
     modules = ModuleWithContentsSerializer(many=True)
 
     class Meta:
         model = Course
-        fields = ('id', 'subject', 'title', 'slug',
-                  'overview', 'created', 'owner', 'modules')
+        fields = ['id', 'subject', 'title', 'slug',
+                  'overview', 'created', 'owner', 'modules']

@@ -1,34 +1,34 @@
 [
 {
+  "model": "courses.subject",
   "pk": 1,
-  "model": "courses.subject",
   "fields": {
-    "slug": "programming",
-    "title": "Programming"
+    "title": "Mathematics",
+    "slug": "mathematics"
   }
 },
 {
+  "model": "courses.subject",
   "pk": 2,
-  "model": "courses.subject",
   "fields": {
-    "slug": "mathematics",
-    "title": "Mathematics"
+    "title": "Music",
+    "slug": "music"
   }
 },
 {
+  "model": "courses.subject",
   "pk": 3,
-  "model": "courses.subject",
   "fields": {
-    "slug": "physics",
-    "title": "Physics"
+    "title": "Physics",
+    "slug": "physics"
   }
 },
 {
-  "pk": 4,
   "model": "courses.subject",
+  "pk": 4,
   "fields": {
-    "slug": "music",
-    "title": "Music"
+    "title": "Programming",
+    "slug": "programming"
   }
 }
 ]
